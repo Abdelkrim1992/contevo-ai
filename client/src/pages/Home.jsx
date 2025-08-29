@@ -1,8 +1,8 @@
 import { lazy } from 'react'
-import { NavbarDemo } from '../components/NavbarSection'
 
 const Hero = lazy(() => import('../components/Hero'))
 const RadialOrbitalTimelineDemo = lazy(() => import('../components/Features'))
+const NavbarDemo = lazy(() => import('../components/NavbarSection'))
 
 const Home = () => {
   return (
