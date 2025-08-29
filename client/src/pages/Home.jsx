@@ -1,9 +1,15 @@
-import React from 'react'
+import { lazy } from 'react'
+import { NavbarDemo } from '../components/NavbarSection'
+
+const Hero = lazy(() => import('../components/Hero'))
+const RadialOrbitalTimelineDemo = lazy(() => import('../components/Features'))
 
 const Home = () => {
   return (
     <div>
-      <h1>Home</h1>
+      <NavbarDemo />
+      <Hero />
+      <RadialOrbitalTimelineDemo />
     </div>
   )
 }
