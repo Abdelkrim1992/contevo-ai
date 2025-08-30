@@ -4,22 +4,28 @@ import {
   SidebarInset,
   SidebarProvider,
 } from "@/components/ui/sidebar"
+
 import { Outlet } from "react-router-dom"
-
-export const iframeHeight = "800px"
-
-export const description = "A sidebar with a header and a search form."
 
 export default function DashboardLayout() {
   return (
-    <div className="[--header-height:calc(--spacing(14))]">
-      <SidebarProvider className="flex flex-col">
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width": "calc(var(--spacing) * 72)",
+          "--header-height": "calc(var(--spacing) * 12)",
+        }
+      }
+    >
+      <AppSidebar variant="inset" />
+      <SidebarInset>
         <SiteHeader />
-        <div className="flex flex-1">
-          <AppSidebar />
-          <Outlet/>
+        <div className="flex flex-1 flex-col">
+          <div className="@container/main flex flex-1 flex-col gap-2">
+            <Outlet />
+          </div>
         </div>
-      </SidebarProvider>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   )
 }

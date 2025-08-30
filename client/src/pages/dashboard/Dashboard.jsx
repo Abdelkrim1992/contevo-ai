@@ -1,9 +1,10 @@
+import { SectionCards } from '@/components/ui/section-cards'
 import React from 'react'
 
 const Dashboard = () => {
   return (
-    <div>
-      <h1>Dashboard</h1>
+    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+              <SectionCards />
     </div>
   )
 }

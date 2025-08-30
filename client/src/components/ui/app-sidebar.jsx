@@ -1,20 +1,23 @@
 import * as React from "react"
 import {
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  LifeBuoy,
-  Map,
-  PieChart,
-  Send,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react"
+  IconCamera,
+  IconChartBar,
+  IconDashboard,
+  IconDatabase,
+  IconFileAi,
+  IconFileDescription,
+  IconFileWord,
+  IconFolder,
+  IconHelp,
+  IconInnerShadowTop,
+  IconListDetails,
+  IconReport,
+  IconSearch,
+  IconSettings,
+  IconUsers,
+} from "@tabler/icons-react"
 
 import { NavMain } from "@/components/ui/nav-main"
-import { NavProjects } from "@/components/ui/nav-projects"
-import { NavSecondary } from "@/components/ui/nav-secondary"
 import { NavUser } from "@/components/ui/nav-user"
 import {
   Sidebar,
@@ -28,54 +31,31 @@ import {
 import { useUser } from "@clerk/clerk-react"
 
 const data = {
-  
-  navSecondary: [
+  navMain: [
     {
-      title: "Support",
+      title: "Dashboard",
       url: "#",
-      icon: LifeBuoy,
+      icon: IconDashboard,
     },
     {
-      title: "Feedback",
+      title: "Lifecycle",
       url: "#",
-      icon: Send,
-    },
-  ],
-  projects: [
-    {
-      name: "Dashboard",
-      url: "#",
-      icon: Frame,
+      icon: IconListDetails,
     },
     {
-      name: "Write Articales",
+      title: "Analytics",
       url: "#",
-      icon: PieChart,
+      icon: IconChartBar,
     },
     {
-      name: "Blog Titles",
+      title: "Projects",
       url: "#",
-      icon: Map,
+      icon: IconFolder,
     },
     {
-      name: "Generate Images",
+      title: "Team",
       url: "#",
-      icon: Map,
-    },
-    {
-      name: "Remove Background",
-      url: "#",
-      icon: Map,
-    },
-    {
-      name: "Remove Objects",
-      url: "#",
-      icon: Map,
-    },
-    {
-      name: "Review Resume",
-      url: "#",
-      icon: Map,
+      icon: IconUsers,
     },
   ],
 }
@@ -83,34 +63,25 @@ const data = {
 export function AppSidebar({
   ...props
 }) {
-  
+
   const user = useUser()
 
   return (
-    <Sidebar
-      className="top-(--header-height) h-[calc(100svh-var(--header-height))]!"
-      {...props}>
+    <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
+            <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
               <a href="#">
-                <div
-                  className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <Command className="size-4" />
-                </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">Contevo AI</span>
-                </div>
+                <IconInnerShadowTop className="!size-5" />
+                <span className="text-base font-semibold">Contevo AI</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        {/* <NavMain items={data.navMain} /> */}
-        <NavProjects projects={data.projects} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={user.user} />
