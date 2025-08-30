@@ -217,7 +217,7 @@ export default function RadialOrbitalTimeline({
                       ? "border-white animate-pulse"
                       : "border-white/40"
                   }
-                  transition-all duration-300 transform
+                  transition-all  transform
                   ${isExpanded ? "scale-150" : ""}
                 `}
                 >
@@ -228,7 +228,7 @@ export default function RadialOrbitalTimeline({
                   className={`
                   absolute top-12  whitespace-nowrap
                   text-xs font-semibold tracking-wider
-                  transition-all duration-300
+                  transition-all 
                   ${isExpanded ? "text-white scale-125" : "text-white/70"}
                 `}
                 >

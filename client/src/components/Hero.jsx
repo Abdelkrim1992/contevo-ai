@@ -44,7 +44,7 @@ export default function HeroSection() {
                                 container: {
                                     visible: {
                                         transition: {
-                                            delayChildren: 1,
+                                            delayChildren: 0.5,
                                         },
                                     },
                                 },
@@ -59,14 +59,14 @@ export default function HeroSection() {
                                         transition: {
                                             type: 'spring',
                                             bounce: 0.3,
-                                            duration: 2,
+                                            duration: 0.5,
                                         },
                                     },
                                 },
                             }}
                             className="absolute inset-0 -z-20">
 
-                            <div style={{ width: '100%', height: '100rem', position: 'relative' }}>
+                            <div style={{ width: '100%', height: '80rem', position: 'relative' }}>
                                 <Iridescence
                                     color={[1, 1, 1]}
                                     mouseReact={false}
@@ -86,7 +86,7 @@ export default function HeroSection() {
                                 <AnimatedGroup variants={transitionVariants}>
                                     <a
                                         href="#a"
-                                        className="hover:bg-background dark:hover:border-t-border bg-muted group mx-auto flex w-fit items-center gap-4 rounded-full border p-1 pl-4 shadow-md shadow-zinc-950/5 transition-colors duration-300 dark:border-t-white/5 dark:shadow-zinc-950">
+                                        className="hover:bg-background dark:hover:border-t-border bg-muted group mx-auto flex w-fit items-center gap-4 rounded-full border p-1 pl-4 shadow-md shadow-zinc-950/5 transition-colors  dark:border-t-white/5 dark:shadow-zinc-950">
                                         <span className="text-foreground text-sm">Introducing Support for AI Models</span>
                                         <span className="dark:border-background block h-4 w-0.5 border-l bg-white dark:bg-zinc-700"></span>
 
@@ -170,7 +170,7 @@ export default function HeroSection() {
                                     
                                     <img
                                         loading="lazy"
-                                        className="z-2 border-border/25 aspect-15/8 relative rounded-2xl border dark:hidden"
+                                        className="z-2 border-border/25 aspect-15/8 relative rounded-2xl border"
                                         src="/mail2-light.webp"
                                         alt="app screen"
                                         width="100%"

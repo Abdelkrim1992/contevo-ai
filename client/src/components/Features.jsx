@@ -189,8 +189,8 @@ export function CardStack ({
   offset,
   scaleFactor
 }) {
-  const CARD_OFFSET = offset || 10;
-  const SCALE_FACTOR = scaleFactor || 0.06;
+  const CARD_OFFSET = offset || 2;
+  const SCALE_FACTOR = scaleFactor || 0.01;
   const [cards, setCards] = useState(items);
 
   useEffect(() => {

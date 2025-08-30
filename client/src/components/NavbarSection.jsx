@@ -1,4 +1,5 @@
 "use client";
+import { useNavigate } from "react-router-dom";
 import {
   Navbar,
   NavBody,
@@ -11,6 +12,7 @@ import {
   MobileNavMenu,
 } from "./ui/resizable-navbar";
 import { useState } from "react";
+import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
 
 export default function NavbarDemo() {
   const navItems = [
@@ -29,16 +31,19 @@ export default function NavbarDemo() {
   ];
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate()
+  const user = useUser();
 
   return (
-    <div className="relative w-full p-5">
+    <div className="w-full p-5">
       <Navbar>
         {/* Desktop Navigation */}
         <NavBody>
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            <NavbarButton variant="primary">Get Started</NavbarButton>
+            { user.isSignedIn ? <UserButton/> : <NavbarButton variant="primary" 
+            onClick={() => navigate("/auth/sign-in")}>Sign In</NavbarButton>}
           </div>
         </NavBody>
 

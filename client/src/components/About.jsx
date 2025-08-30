@@ -35,19 +35,20 @@ const AccordionItem = ({ item, isActive, onMouseEnter }) => {
     <div
       className={`
         relative h-[450px] rounded-2xl overflow-hidden cursor-pointer
-        transition-all duration-700 ease-in-out
+        transition-all ease-in-out
         ${isActive ? 'w-[400px]' : 'w-[60px]'}
       `}
       onMouseEnter={onMouseEnter}
     >
       {/* Background Image */}
-      <img
+      {/* <img
         loading="lazy"
         src={item.imageUrl}
         alt={item.title}
+        type='image/webp'
         className="absolute inset-0 w-full h-full object-cover"
         onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/400x450/2d3748/ffffff?text=Image+Error'; }}
-      />
+      /> */}
       {/* Dark overlay for better text readability */}
       <div className="absolute inset-0 bg-black bg-opacity-40"></div>
 
@@ -55,7 +56,7 @@ const AccordionItem = ({ item, isActive, onMouseEnter }) => {
       <span
         className={`
           absolute text-white text-lg font-semibold whitespace-nowrap
-          transition-all duration-300 ease-in-out
+          transition-all ease-in-out
           ${
             isActive
               ? 'bottom-6 left-1/2 -translate-x-1/2 rotate-0' // Active state: horizontal, bottom-center
@@ -96,7 +97,7 @@ export default function LandingAccordionItem() {
             <div className="mt-8">
               <a
                 href="#contact"
-                className="inline-block bg-gray-900 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-gray-800 transition-colors duration-300"
+                className="inline-block bg-gray-900 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-gray-800 transition-colors "
               >
                 Contact Us
               </a>
