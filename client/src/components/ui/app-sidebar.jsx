@@ -38,19 +38,34 @@ const data = {
       icon: IconDashboard,
     },
     {
-      title: "Lifecycle",
+      title: "Write Articles",
       url: "#",
       icon: IconListDetails,
     },
     {
-      title: "Analytics",
+      title: "Blog Titles",
       url: "#",
       icon: IconChartBar,
     },
     {
-      title: "Projects",
+      title: "Generate Images",
       url: "#",
       icon: IconFolder,
+    },
+    {
+      title: "Remove Background",
+      url: "#",
+      icon: IconChartBar,
+    },
+    {
+      title: "Remove Objects",
+      url: "#",
+      icon: IconChartBar,
+    },
+    {
+      title: "Review Resume",
+      url: "#",
+      icon: IconChartBar,
     },
     {
       title: "Team",
