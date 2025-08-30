@@ -155,7 +155,7 @@ export function AppSidebar({
 }) {
   return (
     <Sidebar
-      className="h-[calc(110svh-var(--header-height))]!"
+      className="top-(--header-height) h-[calc(100svh-var(--header-height))]!"
       {...props}>
       <SidebarHeader>
         <SidebarMenu>

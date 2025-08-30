@@ -14,9 +14,10 @@ export default function DashboardLayout() {
   return (
     <div className="[--header-height:calc(--spacing(14))]">
       <SidebarProvider className="flex flex-col">
+        <SiteHeader />
         <div className="flex flex-1">
           <AppSidebar />
-          <Outlet />
+          <Outlet/>
         </div>
       </SidebarProvider>
     </div>
