@@ -197,9 +197,10 @@ export const NavbarLogo = () => {
       <img
         src="https://assets.aceternity.com/logo-dark.png"
         alt="logo"
+        loading="lazy"
         width={30}
         height={30} />
-      <span className="font-medium text-black dark:text-white">Conveto AI</span>
+      <span className="font-medium text-black dark:text-white">Contevo AI</span>
     </a>
   );
 };
