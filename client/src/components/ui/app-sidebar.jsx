@@ -34,42 +34,42 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/dashboard/home",
       icon: IconDashboard,
     },
     {
       title: "Write Articles",
-      url: "#",
+      url: "/dashboard/write-articles",
       icon: IconListDetails,
     },
     {
       title: "Blog Titles",
-      url: "#",
+      url: "/dashboard/blog-titles",
       icon: IconChartBar,
     },
     {
       title: "Generate Images",
-      url: "#",
+      url: "/dashboard/generate-images",
       icon: IconFolder,
     },
     {
       title: "Remove Background",
-      url: "#",
+      url: "/dashboard/remove-background",
       icon: IconChartBar,
     },
     {
       title: "Remove Objects",
-      url: "#",
+      url: "/dashboard/remove-objects",
       icon: IconChartBar,
     },
     {
       title: "Review Resume",
-      url: "#",
+      url: "/dashboard/review-resume",
       icon: IconChartBar,
     },
     {
       title: "Team",
-      url: "#",
+      url: "/dashboard/community",
       icon: IconUsers,
     },
   ],
