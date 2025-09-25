@@ -27,13 +27,11 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { LogOut } from "lucide-react"
-import { useClerk } from "@clerk/clerk-react"
 
 export function NavUser({
   user
 }) {
   const { isMobile } = useSidebar()
-  const { openUserProfile, signOut } = useClerk()
 
   return (
     <SidebarMenu>
@@ -41,7 +39,7 @@ export function NavUser({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
-              onClick={() => openUserProfile()}
+              onClick={() => {}}
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
               <Avatar className="h-8 w-8 rounded-lg ">
@@ -54,7 +52,7 @@ export function NavUser({
                   {user?.emailAddresses[0].emailAddress}
                 </span>
               </div>
-              <LogOut onClick={() => signOut()}/>
+              <LogOut onClick={() => {}}/>
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           

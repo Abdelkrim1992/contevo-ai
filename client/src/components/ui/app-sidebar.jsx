@@ -28,7 +28,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { useUser } from "@clerk/clerk-react"
 
 const data = {
   navMain: [
@@ -79,7 +78,6 @@ export function AppSidebar({
   ...props
 }) {
 
-  const user = useUser()
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
@@ -96,10 +94,10 @@ export function AppSidebar({
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={data.navMain} className="cursor-pointer mp-5" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user.user} />
+        {/* <NavUser user={user.user} /> */}
       </SidebarFooter>
     </Sidebar>
   );

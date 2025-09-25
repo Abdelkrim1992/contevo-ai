@@ -1,5 +1,3 @@
-import { PricingTable } from '@clerk/clerk-react'
-
 export default function PricingPage() {
   
   return (
@@ -9,9 +7,9 @@ export default function PricingPage() {
         <p className='text-gray-500 text-center mt-2'>Choose the plan that's right for you</p>
         
       </div>
-      <div className='flex items-center justify-center mt-10 w-full'>
+      {/* <div className='flex items-center justify-center mt-10 w-full'>
           <PricingTable />
-      </div>
+      </div> */}
     </div>
   )
 }

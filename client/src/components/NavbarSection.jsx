@@ -12,7 +12,6 @@ import {
   MobileNavMenu,
 } from "./ui/resizable-navbar";
 import { useState } from "react";
-import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
 
 export default function NavbarDemo() {
   const navItems = [
@@ -32,7 +31,6 @@ export default function NavbarDemo() {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate()
-  const user = useUser();
 
   return (
     <div className="w-full p-5">
@@ -42,8 +40,8 @@ export default function NavbarDemo() {
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            { user.isSignedIn ? <UserButton/> : <NavbarButton variant="primary" 
-            onClick={() => navigate("/auth/sign-in")}>Sign In</NavbarButton>}
+            <NavbarButton variant="primary" 
+            onClick={() => navigate("/auth/signin")}>Sign In</NavbarButton>
           </div>
         </NavBody>
 
