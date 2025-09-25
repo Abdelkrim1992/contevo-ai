@@ -1,0 +1,6 @@
+
+
+export const ENV = {
+    VITE_FRONTEND_API_URL: import.meta.env.VITE_FRONTEND_API_URL,
+    VITE_BACKEND_EXPRESS_API_URL: import.meta.env.VITE_BACKEND_EXPRESS_API_URL,
+}
