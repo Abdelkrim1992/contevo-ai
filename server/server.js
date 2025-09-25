@@ -2,19 +2,27 @@
 
 import express from 'express'
 import cors from 'cors'
-import { clerkMiddleware } from '@clerk/express'
-import { requireAuth } from '@clerk/express'
 import { ENV } from './config/env.js'
+import cookieParser from 'cookie-parser'
+import AuthRouter from './routers/authRoutes.js'
+import UserRouter from './routers/userRoutes.js'
 
 const app = express()
-
-app.use(cors())
+app.use(cors({
+    origin : "http://localhost:5173",
+    credentials : true,
+}))
 app.use(express.json())
-app.use(clerkMiddleware())  
-app.use(requireAuth())
+app.use(cookieParser())
+app.use(express.urlencoded({extended : true}))
 
 
-app.get('/', (req, res) =>{
+//routes
+app.use('/auth', AuthRouter)
+app.use('/user', UserRouter)
+
+//test route
+app.get('/', async (req, res) =>{
     res.send('Hello World')
 })
 
