@@ -9,7 +9,7 @@ import UserRouter from './routers/userRoutes.js'
 
 const app = express()
 app.use(cors({
-    origin : "http://localhost:5173",
+    origin : ENV.FRONTEND_APP_URL,
     credentials : true,
 }))
 app.use(express.json())
@@ -26,7 +26,7 @@ app.get('/', async (req, res) =>{
     res.send('Hello World')
 })
 
-const Port = ENV.PORT || 5001;
+const Port = ENV.PORT;
 
 app.listen(Port , () =>{
     console.log('Server is running on port', Port)
