@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -6,6 +6,36 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 
 const GenerateImages = () => {
+  const [prompt, setPrompt] = useState('');
+  const [style, setStyle] = useState('realistic');
+  const [result, setResult] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleGenerate = async () => {
+    if (!prompt) return;
+    setLoading(true);
+    setResult('');
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_EXPRESS_API_URL}/ai/generate-image`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ prompt, style }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        setResult(data.data);
+      } else {
+        setResult('Error: ' + data.message);
+      }
+    } catch (err) {
+      setResult('Error generating image.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-2 pt-6">
@@ -19,11 +49,16 @@ const GenerateImages = () => {
             <div className="grid grid-cols-1 gap-4 @[600px]/card:grid-cols-12">
               <div className="@[600px]/card:col-span-8">
                 <Label htmlFor="prompt">Describe your image</Label>
-                <Textarea id="prompt" placeholder="e.g. A futuristic cityscape at dusk, neon lights, rain" />
+                <Textarea 
+                  id="prompt" 
+                  placeholder="e.g. A futuristic cityscape at dusk, neon lights, rain" 
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                />
               </div>
               <div className="@[600px]/card:col-span-4">
                 <Label htmlFor="style">Style</Label>
-                <Select defaultValue="realistic">
+                <Select value={style} onValueChange={setStyle}>
                   <SelectTrigger id="style" className="w-full">
                     <SelectValue placeholder="Select style" />
                   </SelectTrigger>
@@ -41,7 +76,15 @@ const GenerateImages = () => {
                 </Select>
               </div>
               <div className="flex justify-end @[600px]/card:col-span-12">
-                <Button type="button" variant="outline" className="cursor-pointer">Generate Image</Button>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  className="cursor-pointer" 
+                  onClick={handleGenerate}
+                  disabled={loading}
+                >
+                  {loading ? 'Generating...' : 'Generate Image'}
+                </Button>
               </div>
             </div>
           </CardContent>
@@ -54,8 +97,16 @@ const GenerateImages = () => {
             </h1>
           </CardHeader>
           <CardContent className="min-h-59">
-            <div className="min-h-59 rounded-md border border-input bg-background/50 flex items-center justify-center p-6 text-sm text-muted-foreground">
-              Your generated image will appear here.
+            <div className="min-h-59 rounded-md border border-input bg-background/50 flex items-center justify-center p-6 text-sm text-muted-foreground overflow-hidden">
+              {result ? (
+                result.startsWith('Error') ? (
+                  <p className="text-red-500">{result}</p>
+                ) : (
+                  <img src={result} alt="Generated" className="object-contain h-full w-full rounded-md" />
+                )
+              ) : (
+                "Your generated image will appear here."
+              )}
             </div>
           </CardContent>
         </Card>

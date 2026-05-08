@@ -1,0 +1,8 @@
+problem 1 : 
+
+[dotenv@17.2.1] injecting env (9) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+
+solve :
+
+running nodemon server.js
+

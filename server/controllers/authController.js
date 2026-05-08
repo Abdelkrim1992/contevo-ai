@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import pool from '../config/db.js'
+import supabase from '../config/db.js'
 import { generateToken, removeToken } from '../utils/configureToken.js'
 
 
@@ -17,18 +17,22 @@ const AuthController = () => {
         
         try {
             const hashedPassword = await bcrypt.hash(password, 10)
-            const user = await pool.query(
-                'INSERT INTO users (fullName, email, password) VALUES($1, $2, $3) RETURNING *',
-                [fullName, email, hashedPassword]
-            )
+            const { data, error } = await supabase
+                .from('users')
+                .insert([{ fullName, email, password: hashedPassword }])
+                .select()
+            
+            if (error) throw error;
+
+            const newUser = data[0]
             
             // Generate token for the new user
-            const token = generateToken(res, user.rows[0].id)
+            const token = generateToken(res, newUser.id)
             
             return res.json({
                 success: true,
                 message: 'User registered successfully',
-                user: user.rows[0],
+                user: newUser,
                 token: token
             })
         } catch (error) {
@@ -51,27 +55,32 @@ const AuthController = () => {
         }
 
         try {
-            const user = await pool.query(
-                'SELECT * FROM users WHERE email = $1', [email]
-            )
-            if(user.rows.length === 0) {
+            const { data, error } = await supabase
+                .from('users')
+                .select('*')
+                .eq('email', email)
+
+            if (error) throw error;
+
+            if(!data || data.length === 0) {
                 return res.status(401).json({
                     success: false,
                     message : 'Invalid credentials'
                 })
             }
-            const isPasswordValid = await bcrypt.compare(password, user.rows[0].password)
+            const foundUser = data[0]
+            const isPasswordValid = await bcrypt.compare(password, foundUser.password)
             if(!isPasswordValid) {
                 return res.status(401).json({
                     success: false,
                     message : 'Invalid credentials'
                 })
             }
-            const token = generateToken(res, user.rows[0].id)
+            const token = generateToken(res, foundUser.id)
             return res.json({
                 success: true,
                 message : 'User signed in successfully',
-                user : user.rows[0],
+                user : foundUser,
                 token: token
             })
         } catch (error) {

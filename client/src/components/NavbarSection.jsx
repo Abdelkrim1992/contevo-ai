@@ -12,6 +12,7 @@ import {
   MobileNavMenu,
 } from "./ui/resizable-navbar";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function NavbarDemo() {
   const navItems = [
@@ -30,7 +31,8 @@ export default function NavbarDemo() {
   ];
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   return (
     <div className="w-full p-5">
@@ -40,8 +42,13 @@ export default function NavbarDemo() {
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            <NavbarButton variant="primary" 
-            onClick={() => navigate("/auth/signin")}>Sign In</NavbarButton>
+            {isAuthenticated ? (
+              <NavbarButton variant="primary" 
+              onClick={() => navigate("/dashboard/home")}>Dashboard</NavbarButton>
+            ) : (
+              <NavbarButton variant="primary" 
+              onClick={() => navigate("/auth/signin")}>Sign In</NavbarButton>
+            )}
           </div>
         </NavBody>
 
@@ -65,12 +72,27 @@ export default function NavbarDemo() {
               </a>
             ))}
             <div className="flex w-full flex-col gap-4">
-              <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
-                className="w-full">
-                Login
-              </NavbarButton>
+              {isAuthenticated ? (
+                <NavbarButton
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    navigate("/dashboard/home");
+                  }}
+                  variant="primary"
+                  className="w-full">
+                  Dashboard
+                </NavbarButton>
+              ) : (
+                <NavbarButton
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    navigate("/auth/signin");
+                  }}
+                  variant="primary"
+                  className="w-full">
+                  Login
+                </NavbarButton>
+              )}
               <NavbarButton
                 onClick={() => setIsMobileMenuOpen(false)}
                 variant="primary"

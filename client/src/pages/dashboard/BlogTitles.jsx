@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
@@ -7,8 +7,39 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 
 const BlogTitles = () => {
-  const outputRef = React.useRef(null)
-  const [copied, setCopied] = React.useState(false)
+  const outputRef = useRef(null)
+  const [copied, setCopied] = useState(false)
+  const [keyword, setKeyword] = useState('');
+  const [category, setCategory] = useState('technology');
+  const [result, setResult] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleGenerate = async () => {
+    if (!keyword) return;
+    setLoading(true);
+    setResult('');
+    
+    const prompt = `Generate 10 catchy blog article titles about "${keyword}" in the "${category}" category. Output them one per line.`;
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_EXPRESS_API_URL}/ai/generate-titles`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ prompt, keyword, category, maxTokens: 200 }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        setResult(data.data);
+      } else {
+        setResult('Error: ' + data.message);
+      }
+    } catch (err) {
+      setResult('Error generating titles.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   async function handleCopy() {
     const text = outputRef.current?.value || ''
@@ -35,11 +66,16 @@ const BlogTitles = () => {
             <div className="grid grid-cols-1 gap-4 @[600px]/card:grid-cols-12">
               <div className="@[600px]/card:col-span-8">
                 <Label htmlFor="keyword">Keyword</Label>
-                <Input id="keyword" placeholder="e.g. AI in healthcare" />
+                <Input 
+                  id="keyword" 
+                  placeholder="e.g. AI in healthcare" 
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
+                />
               </div>
               <div className="@[600px]/card:col-span-4">
                 <Label htmlFor="category">Category</Label>
-                <Select defaultValue="technology">
+                <Select value={category} onValueChange={setCategory}>
                   <SelectTrigger id="category" className="w-full">
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
@@ -57,7 +93,15 @@ const BlogTitles = () => {
                 </Select>
               </div>
               <div className="flex justify-end @[600px]/card:col-span-12">
-                <Button type="button" variant="outline" className="cursor-pointer">Generate Titles</Button>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  className="cursor-pointer"
+                  onClick={handleGenerate}
+                  disabled={loading}
+                >
+                  {loading ? 'Generating...' : 'Generate Titles'}
+                </Button>
               </div>
             </div>
           </CardContent>
@@ -73,6 +117,8 @@ const BlogTitles = () => {
             <Textarea className="min-h-33"
               ref={outputRef}
               placeholder="Your generated titles will appear here (one per line)."
+              value={result}
+              readOnly
             />
           </CardContent>
           <CardFooter className="flex justify-end">

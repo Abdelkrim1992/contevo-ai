@@ -4,27 +4,27 @@ import React, { useState } from 'react';
 const accordionItems = [
   {
     id: 1,
-    title: 'Voice Assistant',
+    title: 'AI Script Writing',
     imageUrl: 'https://images.unsplash.com/photo-1628258334105-2a0b3d6efee1',
   },
   {
     id: 2,
-    title: 'AI Image Generation',
+    title: 'Text to Video',
     imageUrl: 'https://images.unsplash.com/photo-1677756119517-756a188d2d94',
   },
   {
     id: 3,
-    title: 'AI Chatbot + Local RAG',
+    title: 'Avatar Generation',
     imageUrl: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4',
   },
   {
     id: 4,
-    title: 'AI Agent',
+    title: 'Video Editing AI',
     imageUrl: 'https://images.unsplash.com/photo-1526628953301-3e589a6a8b74',
   },
   {
     id: 5,
-    title: 'Visual Understanding',
+    title: 'Auto Subtitles',
     imageUrl: 'https://images.unsplash.com/photo-1554415707-6e8cfc93fe23',
   },
 ];
@@ -41,14 +41,14 @@ const AccordionItem = ({ item, isActive, onMouseEnter }) => {
       onMouseEnter={onMouseEnter}
     >
       {/* Background Image */}
-      {/* <img
+      <img
         loading="lazy"
         src={item.imageUrl}
         alt={item.title}
         type='image/webp'
         className="absolute inset-0 w-full h-full object-cover"
         onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/400x450/2d3748/ffffff?text=Image+Error'; }}
-      /> */}
+      />
       {/* Dark overlay for better text readability */}
       <div className="absolute inset-0 bg-black bg-opacity-40"></div>
 
@@ -89,10 +89,10 @@ export default function LandingAccordionItem() {
           {/* Left Side: Text Content */}
           <div className="w-full md:w-1/2 text-center md:text-left">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight tracking-tighter">
-              Accelerate Gen-AI Tasks on Any Device
+              Generate Stunning Videos in Clicks
             </h1>
             <p className="mt-6 text-lg text-gray-600 max-w-xl mx-auto md:mx-0">
-              Build high-performance AI apps on-device without the hassle of model compression or edge deployment.
+              Create high-quality video content from text prompts without the hassle of recording or manual editing.
             </p>
             <div className="mt-8">
               <a

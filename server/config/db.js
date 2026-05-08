@@ -1,19 +1,11 @@
-import { Pool } from 'pg'
+import { createClient } from '@supabase/supabase-js'
 import { ENV } from './env.js'
 
-const pool = new Pool({
-    database: ENV.DATABASE_NAME,
-    user: ENV.DATABASE_USER,
-    password: ENV.DATABASE_PASSWORD,
-    host: ENV.DATABASE_HOST,
-    port: ENV.DATABASE_PORT,
-})
+const supabaseUrl = ENV.SUPABASE_URL;
+const supabaseKey = ENV.SUPABASE_KEY;
 
-pool.on('connect', () => {
-    console.log('connected to the database')
-})
-pool.on('error', (err) => {
-    console.error('Error connecting to the database', err)
-})
+const supabase = createClient(supabaseUrl, supabaseKey)
 
-export default pool;
+console.log('connected to Supabase client')
+
+export default supabase;

@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { lazy } from 'react';
 const Dashboard = lazy(() => import('@/pages/dashboard/Dashboard.jsx'))
-const Community = lazy(() => import('@/pages/dashboard/Community.jsx'))
+const Generations = lazy(() => import('@/pages/dashboard/Generations.jsx'))
 const GenerateImages = lazy(() => import('@/pages/dashboard/GenerateImages.jsx'))
 const BlogTitles = lazy(() => import('@/pages/dashboard/BlogTitles.jsx')) 
 const WriteArticles = lazy(() => import('@/pages/dashboard/WriteArticales.jsx'))
@@ -27,7 +27,7 @@ const ProtectedRoute = () => {
         <Route path="/" element={<DashboardLayout />}>
             <Route index element={<Navigate to="/dashboard/home" replace />} />
             <Route path='home' element={<Dashboard />} />
-            <Route path='community' element={<Community />} />
+            <Route path='generations' element={<Generations />} />
             <Route path='generate-images' element={<GenerateImages />} />
             <Route path='blog-titles' element={<BlogTitles />} />
             <Route path='write-articles' element={<WriteArticles />} />

@@ -3,8 +3,9 @@ import { baseQueryApi } from "../baseApi";
 import { LoginPayload, LoginResponse, RegisterPayload, RegisterResponse, User } from "./authTypes";
 
 export const authApi = createApi({
+    reducerPath : 'authApi',
     baseQuery : baseQueryApi,
-    tagTypes : ["User"],
+    tagTypes : ["Auth"],
     endpoints : (builder) =>({
         register : builder.mutation<RegisterResponse, RegisterPayload>({
             query : (payload : RegisterPayload) => ({
@@ -12,7 +13,7 @@ export const authApi = createApi({
                 method : "POST",
                 body : payload,
             }),
-            invalidatesTags : ["User"]
+            invalidatesTags : ["Auth"]
         }),
         login : builder.mutation<LoginResponse  , LoginPayload>({
             query : (payload: LoginPayload) => ({
@@ -20,14 +21,14 @@ export const authApi = createApi({
                 method : "POST",
                 body : payload,
             }),
-            invalidatesTags : ["User"]
+            invalidatesTags : ["Auth"]
         }),
         logout : builder.mutation({
             query : () => ({
                 url : "/auth/signout",
                 method : "POST",
             }),
-            invalidatesTags : ["User"]
+            invalidatesTags : ["Auth"]
         })
     })
 })

@@ -1,4 +1,4 @@
-import { useLoginMutation, useRegisterMutation } from "@/redux/auth/authEndpoints"
+import { useLoginMutation, useRegisterMutation } from "@/redux/auth/authEndpoint"
 import { setIsAuthenticated, setToken, setUser } from "@/redux/auth/authSlice";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -34,7 +34,7 @@ const useAuth = () => {
 
     const signIn = async ({email, password} : LoginPayload) => {
         try {
-            const response = await login({email, password}).unwrap()
+            const response = await login({email, password}).unwrap();
             const { user, success, message, token} = response;
 
             if(success){
@@ -53,10 +53,12 @@ const useAuth = () => {
         dispatch(setIsAuthenticated(false));
         
         // Clear localStorage
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        localStorage.removeItem("isAuthenticated");
-        
+        localStorage.removeItem([
+            "user",
+            "token",
+            "isAuthenticated",
+        ].join(""));
+
         navigate("/auth/sign-in", { replace: true });
     }
 

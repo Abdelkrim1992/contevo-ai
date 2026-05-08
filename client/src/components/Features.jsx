@@ -27,8 +27,8 @@ const CARDS = [
     designation: "Frontend Developer",
     content: (
       <p>
-        <Highlight>Ruixen UI</Highlight> has completely transformed our development workflow. The components are beautifully crafted and{" "}
-        <Highlight>incredibly easy to integrate</Highlight> into any modern React application.
+        <Highlight>Contevo AI</Highlight> has completely transformed our content workflow. The generated videos are beautifully crafted and{" "}
+        <Highlight>incredibly easy to share</Highlight> across any social platform.
       </p>
     ),
   },
@@ -38,8 +38,8 @@ const CARDS = [
     designation: "UI/UX Designer",
     content: (
       <p>
-        The <Highlight>design system</Highlight> behind Ruixen UI is both elegant and consistent. From layout to interactivity, every detail is thoughtfully built with{" "}
-        <Highlight>accessibility and usability</Highlight> in mind.
+        The <Highlight>AI engine</Highlight> behind Contevo AI is both fast and reliable. From text to video, every detail is thoughtfully generated with{" "}
+        <Highlight>high quality</Highlight> in mind.
       </p>
     ),
   },
@@ -49,8 +49,8 @@ const CARDS = [
     designation: "Product Manager",
     content: (
       <p>
-        After adopting <Highlight>Ruixen UI</Highlight>, our team shipped features 40% faster. The rich component library and{" "}
-        <Highlight>clear documentation</Highlight> have made it an essential tool in our product development.
+        After adopting <Highlight>Contevo AI</Highlight>, our team generated content 40x faster. The rich templates and{" "}
+        <Highlight>clear text prompts</Highlight> have made it an essential tool in our marketing.
       </p>
     ),
   },
@@ -59,14 +59,14 @@ const CARDS = [
 
 const integrations = [
   {
-    name: "Figma",
-    desc: "Design collaboratively in real-time with intuitive UI tools",
-    icon: "🎨", // Replace with Figma logo
+    name: "YouTube",
+    desc: "Publish videos directly to your channel",
+    icon: "📺", // Replace with YouTube logo
   },
   {
-    name: "Vercel",
-    desc: "Deploy your projects seamlessly with global scale",
-    icon: "🚀", // Replace with Vercel logo
+    name: "TikTok",
+    desc: "Share engaging short-form videos instantly",
+    icon: "📱", // Replace with TikTok logo
   }
 ];
 
@@ -89,9 +89,9 @@ export default function RuixenSection() {
           {/* Content */}
           <h3
             className="text-lg sm:text-xl lg:text-2xl font-normal text-gray-900 dark:text-white leading-relaxed">
-            Intuitive Dashboard Experience <span className="text-primary">Ruixen UI</span>{" "}
+            Intuitive Content Experience <span className="text-primary">Contevo AI</span>{" "}
             <span
-              className="text-gray-500 dark:text-gray-400 text-sm sm:text-base lg:text-lg"> Simplify your development workflow with our beautifully designed components that provide actionable insights out of the box.</span>
+              className="text-gray-500 dark:text-gray-400 text-sm sm:text-base lg:text-lg"> Simplify your content workflow with our advanced AI tools that generate high-quality videos out of the box.</span>
           </h3>
         </div>
 
@@ -102,9 +102,9 @@ export default function RuixenSection() {
           {/* Content */}
           <h3
             className="text-lg sm:text-xl lg:text-2xl font-normal text-gray-900 dark:text-white mb-4 sm:mb-6 leading-relaxed">
-            Seamless Integration Ecosystem <span className="text-primary">Ruixen UI</span>{" "}
+            Seamless Publishing Ecosystem <span className="text-primary">Contevo AI</span>{" "}
             <span
-              className="text-gray-500 dark:text-gray-400 text-sm sm:text-base lg:text-lg"> Integrate effortlessly with your favorite tools using Ruixen's smart API-ready architecture and eliminate silos in seconds.</span>
+              className="text-gray-500 dark:text-gray-400 text-sm sm:text-base lg:text-lg"> Publish effortlessly to your favorite platforms using Contevo AI's smart integrations and go viral in seconds.</span>
           </h3>
           <div
             className={cn(
@@ -145,8 +145,8 @@ export default function RuixenSection() {
             className="grid grid-cols-3 gap-6 sm:gap-8 lg:gap-6 xl:gap-8 w-full text-center sm:text-left">
             <div className="space-y-2 sm:space-y-3">
               <div
-                className="text-2xl sm:text-3xl lg:text-4xl font-medium text-gray-900 dark:text-white">+1200</div>
-              <p className="text-sm sm:text-base text-gray-700 dark:text-gray-400">Stars on GitHub</p>
+                className="text-2xl sm:text-3xl lg:text-4xl font-medium text-gray-900 dark:text-white">+12K</div>
+              <p className="text-sm sm:text-base text-gray-700 dark:text-gray-400">Videos Generated</p>
             </div>
             <div className="space-y-2 sm:space-y-3">
               <div
@@ -155,15 +155,15 @@ export default function RuixenSection() {
             </div>
             <div className="space-y-2 sm:space-y-3">
               <div
-                className="text-2xl sm:text-3xl lg:text-4xl font-medium text-gray-900 dark:text-white">+500</div>
-              <p className="text-sm sm:text-base text-gray-700 dark:text-gray-400">Powered Apps</p>
+                className="text-2xl sm:text-3xl lg:text-4xl font-medium text-gray-900 dark:text-white">+50</div>
+              <p className="text-sm sm:text-base text-gray-700 dark:text-gray-400">Integrated Platforms</p>
             </div>
           </div>
         </div>
         <div className="relative">
           <blockquote
             className="border-l-2 border-gray-200 dark:border-gray-700 pl-4 sm:pl-6 lg:pl-8 text-gray-700 dark:text-gray-400">
-            <p className="text-sm sm:text-base lg:text-lg leading-relaxed">Using Ruixen UI has been like unlocking a new level of productivity. It's the perfect fusion of simplicity and versatility, enabling us to create UIs.</p>
+            <p className="text-sm sm:text-base lg:text-lg leading-relaxed">Using Contevo AI has been like unlocking a new level of creativity. It's the perfect fusion of simplicity and power, enabling us to create viral videos instantly.</p>
             <div className="mt-4 sm:mt-6 space-y-2 sm:space-y-3">
               <cite
                 className="block font-medium text-sm sm:text-base text-gray-900 dark:text-white">Saurabh, CEO</cite>

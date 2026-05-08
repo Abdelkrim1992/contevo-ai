@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardContent } from '@/components/ui/card'
-import React from 'react'
+import React, { useState } from 'react'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -7,6 +7,38 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 
 const WriteArticales = () => {
+  const [topic, setTopic] = useState('');
+  const [length, setLength] = useState('short');
+  const [result, setResult] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleGenerate = async () => {
+    if (!topic) return;
+    setLoading(true);
+    setResult('');
+    
+    const prompt = `Write a ${length} article about: ${topic}.`;
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_EXPRESS_API_URL}/ai/generate-article`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ prompt, topic, length, maxTokens: length === 'long' ? 1000 : 300 }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        setResult(data.data);
+      } else {
+        setResult('Error: ' + data.message);
+      }
+    } catch (err) {
+      setResult('Error generating article.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <div
@@ -24,11 +56,13 @@ const WriteArticales = () => {
                 <Input
                   id="topic"
                   placeholder="e.g. Modern Web Performance"
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
                 />
               </div>
               <div className="@[600px]/card:col-span-4">
                 <Label htmlFor="length">Article Length</Label>
-                <Select defaultValue="short">
+                <Select value={length} onValueChange={setLength}>
                   <SelectTrigger id="length" className="w-full">
                     <SelectValue placeholder="Select length" />
                   </SelectTrigger>
@@ -39,7 +73,15 @@ const WriteArticales = () => {
                 </Select>
               </div>
               <div className="flex justify-end">
-                <Button type="button" variant="outline" className="cursor-pointer">Generate Article</Button>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  className="cursor-pointer" 
+                  onClick={handleGenerate}
+                  disabled={loading}
+                >
+                  {loading ? 'Generating...' : 'Generate Article'}
+                </Button>
               </div>
             </div>
           </CardContent>
@@ -54,6 +96,8 @@ const WriteArticales = () => {
           <CardContent>
             <Textarea className="min-h-49"
               placeholder="Your generated article will appear here."
+              value={result}
+              readOnly
             />
           </CardContent>
         </Card>

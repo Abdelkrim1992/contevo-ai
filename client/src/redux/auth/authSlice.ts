@@ -5,18 +5,12 @@ import { User } from "./authTypes";
 interface AuthState {
     user : User;
     isAuthenticated : boolean;
-    isLoading : boolean;
-    isSuccess : boolean;
-    isError : boolean;
     token : string | null;
 }
 
 const initialState : AuthState = {
     user : localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
     isAuthenticated : localStorage.getItem("isAuthenticated") ? JSON.parse(localStorage.getItem("isAuthenticated")) : false,
-    isLoading : false,
-    isSuccess : false,
-    isError : false,
     token : localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null,
 } 
 
@@ -36,19 +30,10 @@ const authSlice = createSlice ({
             state.token = action.payload;
             localStorage.setItem("token", JSON.stringify(action.payload));
         },
-        setIsLoading : (state, action : PayloadAction<AuthState['isLoading']>) => {
-            state.isLoading = action.payload;
-        },
-        setIsSuccess : (state, action : PayloadAction<AuthState['isSuccess']>) => {
-            state.isSuccess = action.payload;
-        },
-        setIsError : (state, action : PayloadAction<AuthState['isError']>) => {
-            state.isError = action.payload;
-        }, 
     }
 })
 
-export const { setToken, setUser, setIsAuthenticated, setIsLoading, setIsSuccess, setIsError } = authSlice.actions;
+export const { setToken, setUser, setIsAuthenticated } = authSlice.actions;
 
 export default authSlice.reducer;
 

@@ -87,7 +87,7 @@ export default function HeroSection() {
                                     <a
                                         href="#a"
                                         className="hover:bg-background dark:hover:border-t-border bg-muted group mx-auto flex w-fit items-center gap-4 rounded-full border p-1 pl-4 shadow-md shadow-zinc-950/5 transition-colors  dark:border-t-white/5 dark:shadow-zinc-950">
-                                        <span className="text-foreground text-sm">Introducing Support for AI Models</span>
+                                        <span className="text-foreground text-sm">Introducing AI Content & Video Generation</span>
                                         <span className="dark:border-background block h-4 w-0.5 border-l bg-white dark:bg-zinc-700"></span>
 
                                         <div className="bg-background group-hover:bg-muted size-6 overflow-hidden rounded-full duration-500">
@@ -108,7 +108,7 @@ export default function HeroSection() {
                                     // speedSegment={0.3}
                                     as="h1"
                                     className="mx-auto mt-8 max-w-4xl text-balance text-6xl md:text-7xl justify-center lg:mt-16 xl:text-[5.25rem]">
-                                    Modern Solutions for Customer Engagement
+                                    Create Engaging AI Content & Videos in Seconds
                                 </TextEffect>
                                 <TextEffect
                                     per="line"
@@ -117,7 +117,7 @@ export default function HeroSection() {
                                     // delay={0.5}
                                     as="p"
                                     className="mx-auto mt-8 max-w-2xl text-center text-lg justify-center">
-                                    Highly customizable components for building modern websites and applications that look and feel the way you mean it.
+                                    Generate high-quality written content and stunning videos using advanced AI. Streamline your creative process and scale your production effortlessly.
                                 </TextEffect>
 
                                 <AnimatedGroup

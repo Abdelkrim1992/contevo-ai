@@ -1,4 +1,6 @@
 import * as React from "react"
+import ProfileDropdown from "@/components/ui/profile-dropdown"
+import { NavMain } from "@/components/ui/nav-main"
 import {
   IconCamera,
   IconChartBar,
@@ -16,9 +18,6 @@ import {
   IconSettings,
   IconUsers,
 } from "@tabler/icons-react"
-
-import { NavMain } from "@/components/ui/nav-main"
-import { NavUser } from "@/components/ui/nav-user"
 import {
   Sidebar,
   SidebarContent,
@@ -56,20 +55,20 @@ const data = {
       url: "/dashboard/remove-background",
       icon: IconChartBar,
     },
-    {
-      title: "Remove Objects",
-      url: "/dashboard/remove-objects",
-      icon: IconChartBar,
-    },
+    // {
+    //   title: "Remove Objects",
+    //   url: "/dashboard/remove-objects",
+    //   icon: IconChartBar,
+    // },
     {
       title: "Review Resume",
       url: "/dashboard/review-resume",
       icon: IconChartBar,
     },
     {
-      title: "Team",
-      url: "/dashboard/community",
-      icon: IconUsers,
+      title: "My Generations",
+      url: "/dashboard/generations",
+      icon: IconReport,
     },
   ],
 }
@@ -94,7 +93,8 @@ export function AppSidebar({
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} className="cursor-pointer mp-5" />
+        <NavMain items={data.navMain} />
+        <ProfileDropdown/>
       </SidebarContent>
       <SidebarFooter>
         {/* <NavUser user={user.user} /> */}
