@@ -1,13 +1,11 @@
 
-import { lazy } from 'react'
-
-const Hero = lazy(() => import('../../components/Hero'))
-const NavbarDemo = lazy(() => import('../../components/NavbarSection'))
-const RuixenSection = lazy(() => import('../../components/Features'))
-const LandingAccordionItem = lazy(() => import('../../components/About'))
-const Testimonials = lazy(() => import('../../components/Testimonial'))
-const PricingTable = lazy(() => import('../../components/Pricing'))
-const Footerdemo = lazy(() => import('../../components/Footer'))
+import Hero from '../../components/Hero'
+import NavbarDemo from '../../components/NavbarSection'
+import RuixenSection from '../../components/Features'
+import LandingAccordionItem from '../../components/About'
+import Testimonials from '../../components/Testimonial'
+import PricingTable from '../../components/Pricing'
+import Footerdemo from '../../components/Footer'
 
 const Home = () => {
   return (
