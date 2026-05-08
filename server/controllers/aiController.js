@@ -176,7 +176,7 @@ export const removeBackground = async (req, res) => {
             contentType: req.file.mimetype || 'image/jpeg',
         });
 
-        const response = await axios.post(ENV.REMOVE_BG_API_KEY, form, {
+        const response = await axios.post('https://api.remove.bg/v1.0/removebg', form, {
             headers: {
                 ...form.getHeaders(),
                 'X-Api-Key': ENV.REMOVE_BG_API_KEY,
@@ -219,19 +219,16 @@ export const removeObject = async (req, res) => {
             knownLength: req.file.size
         });
 
-        const response = await axios.post(ENV.REMOVE_BG_API_KEY, form.getBuffer(), {
+        const response = await axios.post('https://api.remove.bg/v1.0/removebg', form.getBuffer(), {
             headers: {
                 ...form.getHeaders(),
+                'X-Api-Key': ENV.REMOVE_BG_API_KEY,
             },
-            maxContentLength: Infinity,
-            maxBodyLength: Infinity,
+            responseType: 'arraybuffer',
         });
 
-        if (response.data.status !== 200) {
-            return res.status(400).json({ success: false, message: response.data.error || 'PixLab error' });
-        }
-
-        const resultUrl = response.data.link || `data:${response.data.mimeType};base64,${response.data.imgData}`;
+        const base64Image = Buffer.from(response.data, 'binary').toString('base64');
+        const resultUrl = `data:image/png;base64,${base64Image}`;
 
         const { error } = await supabase.from('removed_objects').insert({
             user_id: userId,
@@ -242,7 +239,7 @@ export const removeObject = async (req, res) => {
 
         return res.status(200).json({ success: true, data: resultUrl });
     } catch (error) {
-        console.error('PixLab Object Removal Error:', error.response?.data || error.message);
+        console.error('Remove.bg Object Removal Error:', error.response?.data?.toString() || error.message);
         return res.status(500).json({ success: false, message: 'Failed to process image' });
     }
 };
@@ -256,16 +253,20 @@ export const getGenerations = async (req, res) => {
             { data: articles, error: err1 },
             { data: titles, error: err2 },
             { data: images, error: err3 },
-            { data: resumes, error: err4 },
+            { data: bgRemoved, error: err4 },
+            { data: objRemoved, error: err5 },
+            { data: resumes, error: err6 },
         ] = await Promise.all([
             supabase.from('written_articles').select('*').eq('user_id', userId).order('created_at', { ascending: false }).limit(10),
             supabase.from('blog_titles').select('*').eq('user_id', userId).order('created_at', { ascending: false }).limit(10),
             supabase.from('generated_images').select('*').eq('user_id', userId).order('created_at', { ascending: false }).limit(10),
+            supabase.from('removed_backgrounds').select('*').eq('user_id', userId).order('created_at', { ascending: false }).limit(10),
+            supabase.from('removed_objects').select('*').eq('user_id', userId).order('created_at', { ascending: false }).limit(10),
             supabase.from('reviewed_resumes').select('*').eq('user_id', userId).order('created_at', { ascending: false }).limit(10)
         ]);
 
-        if (err1 || err2 || err3 || err4) {
-            console.error('Error fetching history:', { err1, err2, err3, err4 });
+        if (err1 || err2 || err3 || err4 || err5 || err6) {
+            console.error('Error fetching history:', { err1, err2, err3, err4, err5, err6 });
             return res.status(500).json({ success: false, message: 'Failed to fetch history' });
         }
 
@@ -275,6 +276,8 @@ export const getGenerations = async (req, res) => {
                 articles: articles || [],
                 titles: titles || [],
                 images: images || [],
+                bgRemoved: (bgRemoved || []).map(img => ({ ...img, result_url: img.result_image_url })),
+                objRemoved: (objRemoved || []).map(img => ({ ...img, result_url: img.result_image_url })),
                 resumes: resumes || []
             }
         });

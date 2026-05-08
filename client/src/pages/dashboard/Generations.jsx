@@ -37,10 +37,12 @@ const Generations = () => {
       </div>
       
       <Tabs defaultValue="articles" className="w-full">
-        <TabsList className="mb-6 bg-muted/50 p-1 rounded-lg">
+        <TabsList className="mb-6 bg-muted/50 p-1 rounded-lg flex flex-wrap h-auto gap-1">
           <TabsTrigger value="articles" className="rounded-md">Articles</TabsTrigger>
           <TabsTrigger value="titles" className="rounded-md">Blog Titles</TabsTrigger>
-          <TabsTrigger value="images" className="rounded-md">Images</TabsTrigger>
+          <TabsTrigger value="images" className="rounded-md">Generated Images</TabsTrigger>
+          <TabsTrigger value="bgRemoved" className="rounded-md">Removed BG</TabsTrigger>
+          <TabsTrigger value="objRemoved" className="rounded-md">Removed Objects</TabsTrigger>
           <TabsTrigger value="resumes" className="rounded-md">Resumes</TabsTrigger>
         </TabsList>
         
@@ -126,6 +128,94 @@ const Generations = () => {
                         const link = document.createElement('a');
                         link.href = item.result_url;
                         link.download = `generation-${item.id}.png`;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                      }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                      Download
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))
+            }
+          </div>
+        </TabsContent>
+
+        <TabsContent value="bgRemoved">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {(!generations?.bgRemoved || generations.bgRemoved.length === 0) ? (
+               <div className="col-span-full text-center py-12 bg-muted/20 rounded-lg border border-dashed border-muted-foreground/20">
+                 <p className="text-muted-foreground">No background removals yet.</p>
+               </div>
+            ) : 
+              generations.bgRemoved.map(item => (
+                <Card key={item.id} className="overflow-hidden transition-all hover:shadow-md group">
+                  <div className="aspect-square w-full overflow-hidden relative">
+                    <img 
+                      src={item.result_url} 
+                      alt="Background Removed" 
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" 
+                    />
+                  </div>
+                  <CardContent className="p-4 bg-card">
+                    <p className="text-sm font-medium">Background Removed</p>
+                    <div className="mt-3 flex justify-between items-center">
+                      <span className="text-xs text-muted-foreground">{new Date(item.created_at).toLocaleDateString()}</span>
+                    </div>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full mt-3 h-8 text-xs flex items-center justify-center gap-2 hover:bg-primary/5"
+                      onClick={() => {
+                        const link = document.createElement('a');
+                        link.href = item.result_url;
+                        link.download = `bg-removed-${item.id}.png`;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                      }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                      Download
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))
+            }
+          </div>
+        </TabsContent>
+
+        <TabsContent value="objRemoved">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {(!generations?.objRemoved || generations.objRemoved.length === 0) ? (
+               <div className="col-span-full text-center py-12 bg-muted/20 rounded-lg border border-dashed border-muted-foreground/20">
+                 <p className="text-muted-foreground">No object removals yet.</p>
+               </div>
+            ) : 
+              generations.objRemoved.map(item => (
+                <Card key={item.id} className="overflow-hidden transition-all hover:shadow-md group">
+                  <div className="aspect-square w-full overflow-hidden relative">
+                    <img 
+                      src={item.result_url} 
+                      alt={item.object_description} 
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" 
+                    />
+                  </div>
+                  <CardContent className="p-4 bg-card">
+                    <p className="text-sm font-medium line-clamp-2" title={item.object_description}>{item.object_description}</p>
+                    <div className="mt-3 flex justify-between items-center">
+                      <span className="text-xs text-muted-foreground">{new Date(item.created_at).toLocaleDateString()}</span>
+                    </div>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full mt-3 h-8 text-xs flex items-center justify-center gap-2 hover:bg-primary/5"
+                      onClick={() => {
+                        const link = document.createElement('a');
+                        link.href = item.result_url;
+                        link.download = `obj-removed-${item.id}.png`;
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);
