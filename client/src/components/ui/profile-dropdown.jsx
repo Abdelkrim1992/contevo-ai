@@ -3,7 +3,9 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useUpdateUserProfileMutation } from "@/redux/user/userEndpoint";
-import { setUser } from "@/redux/auth/authSlice";
+import { setUser, setIsAuthenticated, setToken } from "@/redux/auth/authSlice";
+import { useLogoutMutation } from "@/redux/auth/authEndpoint";
+import { useNavigate } from "react-router-dom";
 import {
   Bell,
   CreditCard,
@@ -40,6 +42,20 @@ const ProfileDropdown = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [updateProfile, { isLoading }] = useUpdateUserProfileMutation();
+  const navigate = useNavigate();
+  const [logout] = useLogoutMutation();
+
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap();
+      dispatch(setUser(null));
+      dispatch(setIsAuthenticated(false));
+      dispatch(setToken(null));
+      navigate("/");
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
+  };
 
   const [formData, setFormData] = useState({
     fullName: user?.fullName || "",
@@ -137,7 +153,7 @@ const ProfileDropdown = () => {
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem variant="destructive">
+          <DropdownMenuItem variant="destructive" onClick={handleLogout} className="cursor-pointer">
             <LogOut />
             Log out
           </DropdownMenuItem>

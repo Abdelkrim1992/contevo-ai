@@ -27,11 +27,30 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { LogOut } from "lucide-react"
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { useLogoutMutation } from "@/redux/auth/authEndpoint"
+import { setUser, setIsAuthenticated, setToken } from "@/redux/auth/authSlice"
 
 export function NavUser({
   user
 }) {
   const { isMobile } = useSidebar()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [logout] = useLogoutMutation()
+
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap()
+      dispatch(setUser(null))
+      dispatch(setIsAuthenticated(false))
+      dispatch(setToken(null))
+      navigate("/")
+    } catch (err) {
+      console.error("Logout failed", err)
+    }
+  }
 
   return (
     <SidebarMenu>
@@ -52,7 +71,7 @@ export function NavUser({
                   {user?.emailAddresses[0].emailAddress}
                 </span>
               </div>
-              <LogOut onClick={() => {}}/>
+              <LogOut className="cursor-pointer" onClick={handleLogout}/>
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           

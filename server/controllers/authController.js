@@ -93,7 +93,7 @@ const AuthController = () => {
         }
     }
 
-    const signout = async(res) => {
+    const signout = async(req, res) => {
         removeToken(res)
         return res.status(200).json({
             success: true,
