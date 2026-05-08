@@ -1,0 +1,16 @@
+[functions]
+  directory = "netlify/functions"
+  external_node_modules = ["express", "cors", "dotenv", "jsonwebtoken", "bcrypt", "uuid", "multer", "nodemailer", "stripe", "serverless-http", "@supabase/supabase-js", "axios", "form-data", "openai"]
+  node_bundler = "esbuild"
+
+[build]
+  command = "npm install"
+  functions = "netlify/functions"
+  publish = "."
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/index/:splat"
+  status = 200
+  force = true
+
