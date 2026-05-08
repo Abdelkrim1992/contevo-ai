@@ -12,9 +12,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog"
 import { Button } from "./button";
 
 export function SectionCards() {
+  const [selectedItem, setSelectedItem] = useState(null);
   const [generations, setGenerations] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -22,7 +31,7 @@ export function SectionCards() {
   useEffect(() => {
     async function fetchGenerations() {
       try {
-        const res = await fetch("http://localhost:5000/ai/generations", {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_EXPRESS_API_URL}/ai/generations`, {
           credentials: "include"
         });
         const json = await res.json();
@@ -30,10 +39,10 @@ export function SectionCards() {
           const { articles, titles, images, resumes } = json.data;
           
           let combined = [
-            ...articles.map(a => ({ ...a, type: 'Article', title: a.topic, preview: a.result_text?.substring(0, 100) + '...' })),
-            ...titles.map(t => ({ ...t, type: 'Blog Titles', title: t.keyword, preview: t.result_text?.substring(0, 100) + '...' })),
-            ...images.map(i => ({ ...i, type: 'Image', title: i.prompt, preview: 'Generated Image' })),
-            ...resumes.map(r => ({ ...r, type: 'Resume Review', title: 'Resume Review', preview: r.analysis_result?.substring(0, 100) + '...' }))
+            ...articles.map(a => ({ ...a, type: 'Article', title: a.topic, preview: a.result_text?.substring(0, 100) + '...', fullText: a.result_text })),
+            ...titles.map(t => ({ ...t, type: 'Blog Titles', title: t.keyword, preview: t.result_text?.substring(0, 100) + '...', fullText: t.result_text })),
+            ...images.map(i => ({ ...i, type: 'Image', title: i.prompt, imageUrl: i.result_url })),
+            ...resumes.map(r => ({ ...r, type: 'Resume Review', title: 'Resume Review', preview: r.analysis_result?.substring(0, 100) + '...', fullText: r.analysis_result }))
           ];
           
           setTotal(combined.length);
@@ -65,7 +74,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Active Plan</CardDescription>
           <CardTitle className="text-2xl tabular-nums @[250px]/card:text-3xl">
-            Premium
+            {loading ? "..." : total > 10 ? "Premium" : "Free"}
           </CardTitle>
         </CardHeader>
       </Card>
@@ -88,23 +97,96 @@ export function SectionCards() {
               <p className="px-2 text-sm text-muted-foreground col-span-full">No recent creations found.</p>
           ) : (
               generations.map((gen, idx) => (
-                  <Card key={idx} className="@container/card">
-                      <CardHeader>
+                  <Card 
+                      key={idx} 
+                      className="@container/card flex flex-col h-full cursor-pointer hover:ring-2 ring-primary/20 transition-all"
+                      onClick={() => setSelectedItem(gen)}
+                  >
+                      <CardHeader className="flex-1 pb-4">
                           <h2 className="text-md font-semibold truncate">
                               {gen.title}
                           </h2>
-                          <div className="flex items-center gap-2 justify-between">
-                              <p className="text-sm text-muted-foreground truncate flex-1">
-                                  {gen.preview}
-                              </p>
-                              <Badge variant="secondary">{gen.type}</Badge>
+                          <div className="flex flex-col gap-2 mt-2">
+                              {gen.type === 'Image' ? (
+                                  <div className="relative w-full h-32 rounded-md overflow-hidden bg-muted">
+                                      <img src={gen.imageUrl} alt={gen.title} className="object-cover w-full h-full" />
+                                  </div>
+                              ) : (
+                                  <p className="text-sm text-muted-foreground line-clamp-3">
+                                      {gen.preview}
+                                  </p>
+                              )}
                           </div>
                       </CardHeader>
+                      <CardFooter className="flex items-center justify-between mt-auto pt-0">
+                          <Badge variant="secondary">{gen.type}</Badge>
+                          <Button 
+                              variant="link" 
+                              size="sm" 
+                              className="px-0 cursor-pointer"
+                              onClick={(e) => { e.stopPropagation(); setSelectedItem(gen); }}
+                          >
+                              {gen.type === 'Image' ? 'View Image' : 'See Details'}
+                          </Button>
+                      </CardFooter>
                   </Card>
               ))
           )}
         </div>
       </div>
+
+      <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{selectedItem?.title}</DialogTitle>
+            <DialogDescription>
+              {selectedItem?.type} generated on {selectedItem && new Date(selectedItem.created_at).toLocaleDateString()}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-4">
+            {selectedItem?.type === 'Image' ? (
+                <div className="flex flex-col items-center gap-4">
+                    <img src={selectedItem.imageUrl} alt={selectedItem.title} className="max-w-full rounded-md shadow-sm" />
+                </div>
+            ) : (
+                <div className="whitespace-pre-wrap text-sm text-foreground bg-muted p-4 rounded-md">
+                    {selectedItem?.fullText}
+                </div>
+            )}
+          </div>
+          <DialogFooter>
+            {selectedItem?.type === 'Image' ? (
+                <Button className="cursor-pointer" onClick={async () => {
+                    try {
+                        const response = await fetch(selectedItem.imageUrl);
+                        const blob = await response.blob();
+                        const blobUrl = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = blobUrl;
+                        a.download = `Contevo_Image_${selectedItem.id}.png`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        window.URL.revokeObjectURL(blobUrl);
+                    } catch (e) {
+                        window.open(selectedItem.imageUrl, '_blank');
+                    }
+                }}>
+                    Download Image
+                </Button>
+            ) : (
+                <Button variant="outline" className="cursor-pointer" onClick={() => {
+                  if (selectedItem?.fullText) {
+                    navigator.clipboard.writeText(`${selectedItem.title}\n\n${selectedItem.fullText}`);
+                  }
+                }}>
+                  Copy Content
+                </Button>
+            )}
+            <Button variant={selectedItem?.type === 'Image' ? "outline" : "default"} className="cursor-pointer" onClick={() => setSelectedItem(null)}>Close</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

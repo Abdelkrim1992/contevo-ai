@@ -10,5 +10,5 @@ export const ENV = {
     JWT_SECRET : process.env.JWT_SECRET,
     FRONTEND_APP_URL : process.env.FRONTEND_APP_URL,
     OPENAI_API_KEY : process.env.OPENAI_API_KEY,
-    PIXLAB_API_KEY : process.env.PIXLAB_API_KEY,
+    REMOVE_BG_API_KEY : process.env.REMOVE_BG_API_KEY,
 }

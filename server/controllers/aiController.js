@@ -170,26 +170,22 @@ export const removeBackground = async (req, res) => {
         if (!req.file) return res.status(400).json({ success: false, message: 'Image is required' });
         
         const form = new FormData();
-        form.append('key', ENV.PIXLAB_API_KEY);
-        form.append('file', req.file.buffer, {
+        form.append('size', 'auto');
+        form.append('image_file', req.file.buffer, {
             filename: req.file.originalname || 'image.jpg',
             contentType: req.file.mimetype || 'image/jpeg',
         });
 
-        const response = await axios.post('https://api.pixlab.io/bgremove', form.getBuffer(), {
+        const response = await axios.post(ENV.REMOVE_BG_API_KEY, form, {
             headers: {
                 ...form.getHeaders(),
+                'X-Api-Key': ENV.REMOVE_BG_API_KEY,
             },
-            maxContentLength: Infinity,
-            maxBodyLength: Infinity,
+            responseType: 'arraybuffer',
         });
 
-        if (response.data.status !== 200) {
-            console.error('PixLab error response:', response.data);
-            return res.status(400).json({ success: false, message: response.data.error || 'PixLab processing error' });
-        }
-
-        const resultUrl = response.data.link || `data:${response.data.mimeType};base64,${response.data.imgData}`;
+        const base64Image = Buffer.from(response.data, 'binary').toString('base64');
+        const resultUrl = `data:image/png;base64,${base64Image}`;
 
         // Save to supabase
         const { error } = await supabase.from('removed_backgrounds').insert({
@@ -204,8 +200,8 @@ export const removeBackground = async (req, res) => {
 
         return res.status(200).json({ success: true, data: resultUrl });
     } catch (error) {
-        console.error('PixLab Request Error:', error.response?.data || error.message);
-        return res.status(500).json({ success: false, message: 'Internal server error processing image', error: error.message });
+        console.error('Remove.bg Error:', error.response?.data?.toString() || error.message);
+        return res.status(500).json({ success: false, message: 'Failed to remove background', error: error.message });
     }
 };
 
@@ -216,13 +212,14 @@ export const removeObject = async (req, res) => {
         if (!req.file) return res.status(400).json({ success: false, message: 'Image is required' });
         
         const form = new FormData();
-        form.append('key', ENV.PIXLAB_API_KEY);
-        form.append('file', req.file.buffer, {
-            filename: req.file.originalname || 'image.jpg',
+        form.append('key', ENV.REMOVE_BG_API_KEY);
+        form.append('image_file', req.file.buffer, {
+            filename: req.file.originalname || 'upload.jpg',
             contentType: req.file.mimetype || 'image/jpeg',
+            knownLength: req.file.size
         });
 
-        const response = await axios.post('https://api.pixlab.io/bgremove', form.getBuffer(), {
+        const response = await axios.post(ENV.REMOVE_BG_API_KEY, form.getBuffer(), {
             headers: {
                 ...form.getHeaders(),
             },

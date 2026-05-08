@@ -97,15 +97,33 @@ const GenerateImages = () => {
             </h1>
           </CardHeader>
           <CardContent className="min-h-59">
-            <div className="min-h-59 rounded-md border border-input bg-background/50 flex items-center justify-center p-6 text-sm text-muted-foreground overflow-hidden">
-              {result ? (
-                result.startsWith('Error') ? (
-                  <p className="text-red-500">{result}</p>
+            <div className="flex flex-col gap-4">
+              <div className="min-h-59 rounded-md border border-input bg-background/50 flex items-center justify-center p-6 text-sm text-muted-foreground overflow-hidden">
+                {result ? (
+                  result.startsWith('Error') ? (
+                    <p className="text-red-500">{result}</p>
+                  ) : (
+                    <img src={result} alt="Generated" className="object-contain h-full w-full rounded-md" />
+                  )
                 ) : (
-                  <img src={result} alt="Generated" className="object-contain h-full w-full rounded-md" />
-                )
-              ) : (
-                "Your generated image will appear here."
+                  "Your generated image will appear here."
+                )}
+              </div>
+              {result && !result.startsWith('Error') && (
+                <Button 
+                  onClick={() => {
+                    const link = document.createElement('a');
+                    link.href = result;
+                    link.download = `generated-image-${Date.now()}.png`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                  }}
+                  variant="secondary"
+                  className="w-full"
+                >
+                  Download Image
+                </Button>
               )}
             </div>
           </CardContent>
