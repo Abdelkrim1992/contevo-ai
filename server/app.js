@@ -21,12 +21,16 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use("/auth", AuthRouter);
-app.use("/user", UserRouter);
-app.use("/ai", aiRouter);
+const router = express.Router();
+router.use("/auth", AuthRouter);
+router.use("/user", UserRouter);
+router.use("/ai", aiRouter);
 
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
   res.send('Welcome to my Express app!');
 });
+
+app.use("/api", router);
+app.use("/", router);
 
 export default app;
