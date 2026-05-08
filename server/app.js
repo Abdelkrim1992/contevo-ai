@@ -9,9 +9,20 @@ import aiRouter from "./routers/aiRouter.js";
 
 const app = express();
 
+const allowedOrigins = [
+  ENV.FRONTEND_APP_URL,
+  ENV.FRONTEND_APP_URL?.endsWith('/') ? ENV.FRONTEND_APP_URL.slice(0, -1) : `${ENV.FRONTEND_APP_URL}/`
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: ENV.FRONTEND_APP_URL,
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
   })
 );
